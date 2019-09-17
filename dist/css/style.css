@@ -301,6 +301,10 @@ body {
   .likes__btn--next {
     float: right; }
 
+  .results__btn--none {
+    display: none;
+  }
+
 .recipe {
   background-color: #F9F5F3;
   border-top: 1px solid #fff; }

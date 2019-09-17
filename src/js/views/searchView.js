@@ -5,7 +5,7 @@ export const clearInput = ()=> {elements.searchInput.value = ''};
 export const clearResults= ()=> {elements.searchResList.innerHTML = '';
                                 elements.searchResPages.innerHTML= '';};
 
-const limitRecipeTitle = (title , limit=17)=>{
+const limitRecipeTitle = (title , limit=18)=>{
     const newTitle = [];
     if(title.length > limit){
         title.split(' ').reduce((acc, cur)=> {
@@ -19,16 +19,19 @@ const limitRecipeTitle = (title , limit=17)=>{
     else{ return title};
 }
 
+
+
+
 const renderRecipe = recipe =>{
     const markup = `
     <li>
-        <a class="results__link" href="${recipe.recipe.url}">
+        <a class="results__link" href="#${recipe.recipe_id}">
             <figure class="results__fig">
-                <img src="${recipe.recipe.image}" alt="Test">
+                <img src="${recipe.image_url}" alt="Test">
             </figure>
             <div class="results__data">
-                <h4 class="results__name">${limitRecipeTitle(recipe.recipe.label)}</h4>
-                <p class="results__author">${recipe.recipe.source}</p>
+                <h4 class="results__name">${limitRecipeTitle(recipe.title)}</h4>
+                <p class="results__author">${recipe.publisher}</p>
             </div>
         </a>
     </li>
@@ -53,6 +56,12 @@ const renderButtons = (page , numResults, resPerPage) => {
         // Button to next page;
         button = createButton(page , 'next')
     }
+    
+    else if(page ===1 && pages ===1){
+        // Button to next page;
+        button = createButton(page , 'none')
+    }
+
     else if(page < pages && page !==1){
         //Button to next page and prev page
         button = `${createButton(page , 'prev')}
