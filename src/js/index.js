@@ -1,8 +1,12 @@
 import Search from './models/Search';
 import Recipe from './models/Recipe';
+import list from './models/List';
 import * as searchView from './views/searchView';
 import * as recipeView from './views/recipeView';
+import * as listView from './views/listView';
 import { elements, renderloader, clearloader } from './views/base';
+
+
 
 
 /*-------------------
@@ -69,6 +73,11 @@ const controlRecipe = async () => {
         recipeView.clearRecipe();
         renderloader(elements.recipe);
 
+        // Highlight selected search item
+        if(state.search){
+            searchView.highlightSelected(id);
+        }
+
         // Creating new recipe object
         state.recipe = new Recipe(id);
 
@@ -93,4 +102,65 @@ const controlRecipe = async () => {
 const events = ['hashchange', 'load'];
 events.forEach((event) => window.addEventListener(event, controlRecipe));
 
-// console.log(state)
+/*-------------------
+List Controller
+----------------- */
+
+const controlList = ()=> {
+    // create a new List if there is no list
+    if(!state.list){
+        state.list = new list();
+        
+    }
+
+    //Add each ingredient to the list and UI
+    state.recipe.ingredients.forEach(el => {
+        const item = state.list.additem(el.count, el.unit, el.ingredient);
+        listView.renderItem(item);
+    })
+}
+
+// Handle delete and update list item events
+elements.shopping.addEventListener('click', e => {
+    const id = e.target.closest('.shopping__item').dataset.itemid;
+
+    //Handle the delete button
+    if (e.target.matches('.shopping__delete , .shopping__delete *')){
+        // Delete from state
+        state.list.deleteitem(id);
+
+        // Delete from UI
+        listView.deleteItem(id);
+    }
+        // Handle the count update
+    else if (e.target.matches('.shopping__count-value , .shopping__count-value *')){
+        const val = parseFloat(e.target.value);
+        state.list.updateCount(id, val);
+        console.log(state.list.items)
+    }
+
+})
+
+
+// Handling Recipe button clicks
+elements.recipe.addEventListener('click', e => {
+    if (e.target.matches('.btn-decrease, .btn-decrease *')) {
+        // Decrease button is clicked
+        if(state.recipe.servings >1){
+            state.recipe.updateServings('dec');
+            recipeView.updateServingsInredients(state.recipe);
+        }
+    }
+    else if (e.target.matches('.btn-increase, .btn-increase *')) {
+        // increase button is clicked
+        state.recipe.updateServings('inc')
+        recipeView.updateServingsInredients(state.recipe);
+    }
+    else if (e.target.matches('.recipe__btn--add, .recipe__btn--add *')){
+        controlList();
+    }
+})
+
+
+
+ 
