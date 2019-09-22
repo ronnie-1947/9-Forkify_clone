@@ -15,7 +15,7 @@ export default class Recipe {
             this.img = res.data.recipe.image_url;
             this.url = res.data.recipe.source_url ;
             this.ingredients = res.data.recipe.ingredients;
-            console.log(this.ingredients)
+            // console.log(this.ingredients)
         }
         catch (error) {
             alert(error);
@@ -26,12 +26,12 @@ export default class Recipe {
         const numIng = this.ingredients.length;
         const periods = Math.ceil(numIng / 3);
         this.time = periods * 15;
-        console.log(this.time);
+        // console.log(this.time);
     }
 
     calcServings() {
         this.servings = 4;
-        console.log(this.servings)
+        // console.log(this.servings)
     }
 
     parseIngredients() {

@@ -196,6 +196,7 @@ body {
     cursor: pointer;
     padding: 0 4rem;
     display: flex;
+    visibility: hidden;
     align-items: center;
     height: 100%;
     transition: all .3s; }

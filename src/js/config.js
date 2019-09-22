@@ -15,6 +15,6 @@ const apiKeys = {
 
 export const baseURL = 'http://cors-anywhere.herokuapp.com/https://www.food2fork.com/api/';
 
-export const key = apiKeys.apiKey6;
+export const key = apiKeys.apiKey5;
 
 // const apiAppID = '1462084f';
